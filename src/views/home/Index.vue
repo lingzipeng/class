@@ -1,12 +1,5 @@
 <template>
 <div class="home">
-  <!--顶部背景图和内容 start-->
-  <!-- <div class="top_bg">
-    <h1>好好学习，天天向上</h1>
-    <p>学生信息管理系统·欢迎您，admin</p>
-  </div> -->
-  <!--顶部背景图和内容 end-->
-  <!--本站数据统计 start-->
   <p style="margin-bottom:15px;color: #144b9f;">
   <div style="width: 12px;height:12px;background-color:#f9a332;border-radius: 50%;float: left;margin-top: 5px;
             margin-right: 8px;"></div>本站数据统计

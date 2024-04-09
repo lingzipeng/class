@@ -54,7 +54,7 @@ export const staticRouter = [
   {
     path: "/investigation",
     name: "investigation",
-    redirect: "/user/investigation",
+    redirect: "/investigation",
     component: () => import("../views/layout/Index.vue"),
     isMenu: true,
     funcNode: 1,
@@ -63,7 +63,7 @@ export const staticRouter = [
         path: "/investigation",
         name: "investigation",
         meta: { title: "调查问卷", icon: "Document" },
-        component: () => import("../views/user/components/investigation.vue"),
+        component: () => import("../views/investigation/investigation.vue"),
       },
     ],
   },

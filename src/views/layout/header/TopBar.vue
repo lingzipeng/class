@@ -12,12 +12,7 @@
         <!--用户头像 start-->
         <template #reference>
           <el-link :underline="false">
-            <!-- 用户没设置头像的情况下使用系统默认的 -->
-            <img v-if="userInfo.userIcon" :src="url+'uploadFile/'+userInfo.userIcon"
-                 style="width: 50px;border-radius: 50px;" />
-            <img v-else src="../../../assets/default_avatar.png"
-                 style="width: 40px;border-radius: 50px;">
-            <span>{{userInfo.realname}}</span>
+            <span :src="url+'uploadFile/'+userInfo.userIcon">{{userInfo.realname}}</span>
           </el-link>
         </template>
         <!--用户头像 end-->
@@ -25,9 +20,6 @@
         <template #default>
           <div class="demo-rich-conent" style="display: flex; gap: 16px; flex-direction: column">
             <div class="demo-rich-conent-custom">
-              <!-- 用户没设置头像的情况下使用系统默认的 -->
-              <img v-if="userInfo.userIcon" :src="url+'uploadFile/'+userInfo.userIcon"/>
-              <img v-else  src="../../../assets/default_avatar.png">
               <p class="demo-rich-content__name">
                 用户名：{{userInfo.username}}
               </p>

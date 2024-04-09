@@ -1,4 +1,4 @@
-<template>
+  <template>
   <el-card class="box-card">
     <!--头部 start-->
     <template #header>
@@ -90,11 +90,12 @@
                   clearable
                   placeholder="请输入"
                   v-model="scope.row.score"
+                  size="small"
               ></el-input>
               <el-button type="success" size="small" @click="editScores(scope.row)"
                          style="margin: 0 0 10px 10px;">保存</el-button>
-              <el-button type="warning" size="small" @click="cancel(scope.row)"
-                         style="margin: 0 0 10px 10px;">取消</el-button>
+              <!-- <el-button type="warning" size="small" @click="cancel(scope.row)"
+                         style="margin: 0 0 10px 10px;">取消</el-button> -->
             </div>
 
             <span  v-else>

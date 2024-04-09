@@ -1,18 +1,165 @@
 <template>
-  <div>
-    <el-descriptions title="User Info">
-      <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-      <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-      <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-      <el-descriptions-item label="Remarks">
-        <el-tag size="small">School</el-tag>
-      </el-descriptions-item>
-      <el-descriptions-item label="Address"
-        >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-        Province</el-descriptions-item
-      >
-    </el-descriptions>
-  </div>
+  <el-table
+    :data="tableData"
+    style="width: 100%"
+    :row-class-name="tableRowClassName"
+  >
+    <el-table-column prop="date" label="" width="180" />
+    <el-table-column prop="name" label="姓名" width="180" />
+    <el-table-column prop="remarks" label="评价" />
+    <el-table-column prop="rating" label="评分" width="180"> </el-table-column>
+    <el-table-column label="操作">
+      <template #default="scope">
+            <el-button size="small" @click="editInvestigation(scope.row.id)"
+                       style="margin: 0 0 10px 10px;">编辑</el-button>
+            <el-popconfirm width="200px" confirm-button-text="确定" cancel-button-text="取消" :icon="Delete"
+                           icon-color="#626AEF" :title="'确定删除角色名为“'+scope.row.name+'”的角色吗？'"
+                           @confirm="delInvestigation( scope.row.id)">
+              <template #reference>
+                <el-button size="small" type="danger" style="margin-bottom: 10px;">删除</el-button>
+              </template>
+            </el-popconfirm>
+          </template>
+    </el-table-column>
+  </el-table>
+  <el-button plain style="width: 100%" color="#2fa7b9" @click="addInvestigation"
+    >添加角色</el-button
+  >
+  <!--新增问卷弹出框 start-->
+  <el-dialog
+    align-center
+    v-model="addInvestigationDialogFormVisible"
+    width="42%"
+    destroy-on-close
+  >
+    <template #header="{ close, titleId, titleClass }">
+      <div class="my-header">
+        <el-icon size="26px"><EditPen /></el-icon>
+        <h1 id="titleId">{{ addTitle }}</h1>
+      </div>
+    </template>
+    <AddInvestigation
+      @closeAddInvestigationForm="closeAddInvestigationForm"
+      @success="success"
+    />
+  </el-dialog>
+  <!--编辑问卷弹出框 start-->
+  <el-dialog
+    align-center
+    v-model="editInvestigationDialogFormVisible"
+    width="42%"
+    destroy-on-close
+  >
+    <template #header="{ close, titleId, titleClass }">
+      <div class="my-header">
+        <el-icon size="26px"><EditPen /></el-icon>
+        <h1 id="titleId">{{ editTitle }}</h1>
+      </div>
+    </template>
+    <EditInvestigation
+      :InvestigationInfo="InvestigationInfo"
+      @closeEditInvestigationForm="closeEditInvestigationForm"
+      @success="success"
+    />
+  </el-dialog>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+import { ref, reactive, toRefs, onMounted } from "vue";
+import {ElMessage} from 'element-plus'
+import AddInvestigation from "./components/AddInvestigation.vue";
+import EditInvestigation from "./components/EditInvestigation.vue";
+import { getInvestigationApi, deleteInvestigationApi, getInvestigationListApi } from "../../api/investigation/investigation";
+const state = reactive({
+  // 搜索表单内容
+  searchValue: "",
+  // 表格全部信息
+  tableData: [],
+  total: 0, //总条数
+  pageSize: 10, //每页显示行数
+  pageIndex: 1, //当前页码
+  loading: false, // 数据加载
+})
+// 获取列表数据
+const loadData = async (state: any)=> {
+  state.loading = true
+  // 先清空数据
+  state.tableData=[]
+  const params = {
+    'pageIndex':state.pageIndex,
+    'pageSize': state.pageSize,
+    'searchValue': state.searchValue
+  }
+  const { data } = await getInvestigationListApi(params)
+  state.tableData = data.content
+  state.total = data.totalElements
+  state.loading = false
+}
+//新增
+const addTitle = ref("新增问卷");
+const addInvestigationDialogFormVisible = ref(false);
+// 添加角色
+const addInvestigation = () => {
+  addInvestigationDialogFormVisible.value = true;
+};
+// 关闭新增弹出框
+const closeAddInvestigationForm = () => {
+  addInvestigationDialogFormVisible.value = false;
+};
+
+// 编辑问卷弹窗状态
+const editInvestigationDialogFormVisible = ref(false);
+const editTitle = ref("编辑问卷");
+// 编辑角色信息
+const InvestigationInfo = ref();
+const editInvestigation = async (id:number)=> {
+  const { data } = await getInvestigationApi(id)
+  InvestigationInfo.value = data.result
+  editInvestigationDialogFormVisible.value = true
+}
+// 删除角色信息
+const delInvestigation = async (id:number)=> {
+  const { data } = await deleteInvestigationApi(id)
+  if(data.status===200){
+    ElMessage.success('删除成功')
+    await loadData(state);
+  }else {
+    ElMessage.error('删除失败')
+  }
+}
+// 关闭编辑弹出框
+const closeEditInvestigationForm = () => {
+  editInvestigationDialogFormVisible.value = false;
+};
+
+// 提交表单回调函数
+const success = () => {
+  loadData(state);
+  addInvestigationDialogFormVisible.value = false;
+  editInvestigationDialogFormVisible.value = false;
+};
+
+const tableRowClassName = ({ rowIndex }: { rowIndex: number }) => {
+  if (rowIndex === 1) {
+    return "warning-row";
+  } else if (rowIndex === 3) {
+    return "success-row";
+  }
+  return "";
+};
+
+//挂载后加载数据
+onMounted(() => {
+  loadData(state);
+});
+const {tableData,pageIndex,pageSize,loading,total,searchValue} = toRefs(state)
+</script>
+
+<style scoped>
+.el-table .warning-row {
+  --el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
+.el-table .success-row {
+  --el-table-tr-bg-color: var(--el-color-success-light-9);
+}
+</style>

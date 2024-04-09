@@ -50,13 +50,13 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="角色编号">
+        <!-- <el-table-column label="角色编号">
           <template #default="scope">
             <el-tooltip :content="scope.row.code" palacement="top" effect="light">
               <span class="highlight">{{scope.row.code}}</span>
             </el-tooltip>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column label="创建时间">
           <template #default="scope">

@@ -29,19 +29,6 @@
               </el-form-item>
             </el-col>
             <!--头像-->
-            <el-col :span="5">
-              <el-form-item  label="头像：" style="margin: auto;">
-                <el-upload class="avatar-uploader" :action="uploadURL" name="fileResource" :show-file-list="false" :on-success="handleAvatarSuccess">
-                  <img v-if="basic.userIcon" :src="url+'uploadFile/'+basic.userIcon"
-                       style="width: 50px;border-radius: 50px;" />
-                  <img v-else  src="../../../assets/default_avatar.png"
-                       style="width: 50px;border-radius: 50px;" />
-                  <span style="margin-left: 10px;
-                                        font-size: 10px;
-                                        text-decoration: underline;line-height: 20px;">点击更换</span>
-                </el-upload>
-              </el-form-item>
-            </el-col>
             <el-col :span="3">
               <el-form-item>
                 <el-button :loading="loading" plain color="#2fa7b9"  style="margin-left: 50px;" @click="onBasicSubmit(basicFormRef)">

@@ -8,11 +8,6 @@
         信息展示
       </h3>
       <div class="info">
-        <div class="right_photo">
-          <!-- 用户没设置头像的情况下使用系统默认的 -->
-          <img v-if="userInfo.userIcon === null || userInfo.userIcon === ''" src="../../../assets/default_avatar.png">
-          <img v-else :src="url+'uploadFile/'+userInfo.userIcon">
-        </div>
         <h2>Hi，{{userInfo.realname}}</h2>
         <br>
         <p class="email">{{userInfo.email}}</p>
@@ -27,22 +22,8 @@
       <div class="type">
         <br>
         <p>账号类型分为：普通用户、管理员</p>
-        <!-- <p>管理员可对本站数据、成绩、系统等进行管理</p>
-        <p>普通用户可对成绩等进行管理</p>
-        <br>
-        <p>如有问题可联系站长</p>
-        <p>
-          站长邮箱：<a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=11184629@qq.com"
-                      target="_blank" data-v-634963c2="">11184629 @qq.com</a>
-        </p> -->
       </div>
       <el-divider />
-      <h3 class="title">
-        <el-icon style="margin-right: 10px;">
-          <Watch />
-        </el-icon>
-        本站运行天数（{{calculateDays('2022-12-20 00:00:00')}}）
-      </h3>
     </div>
   </el-col>
 </template>

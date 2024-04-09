@@ -14,7 +14,7 @@
             <el-col :span="24">
               <el-select
                 v-model="courseId"
-                placeholder="优秀榜单"
+                placeholder="请选择"
                 style="width: 100%"
                 @change="changeCourse"
               >
