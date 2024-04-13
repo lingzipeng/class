@@ -95,6 +95,7 @@ const getIndexTotal = async ()=> {
     courseNums.value = data.result.courseNums
     categoryData.value = data.result.scores.categoryList
     seriesData.value = data.result.scores.barEchartsSeriesList
+    // console.log(seriesData.value)
   }
 }
 

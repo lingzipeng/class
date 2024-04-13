@@ -62,6 +62,7 @@ const formInvestigation = reactive({
 const props = defineProps(["investigationInfo"]);
 const investigationInfo = ref(props.investigationInfo);
 const emit = defineEmits(["closeEditInvestigationForm", "success"]);
+
 // 给表单填充数据
 for (const key in formInvestigation) {
   formInvestigation[key]= investigationInfo.value[key];

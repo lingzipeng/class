@@ -11,7 +11,7 @@
         <div class="card-search">
           <el-row :gutter="10">
             <el-col :span="10">
-              <el-input :prefix-icon="Search" v-model="searchValue" @keyup.enter.native="search"
+              <el-input v-model="searchValue" @keyup.enter.native="search"
                         placeholder="关键字搜索（回车）"/>
             </el-col>
             <el-col :span="11">
@@ -37,7 +37,6 @@
     <div class="table-box">
       <el-table element-loading-text="数据加载中..." v-loading="loading" :data="tableData"
                 style="width: 100%;text-align: center" :cell-style="{textAlign: 'center'}"
-                :row-class-name="rowClassName"
                 :header-cell-style="{fontSize: '15px', background: '#178557',color: 'white',textAlign: 'center'}">
 
         <el-table-column label="序号" width="100" type="index" :index="Nindex"/>
@@ -166,10 +165,11 @@ const loadData = async (state: any)=> {
   }
   const { data } = await getGradeClassListApi(params)
   state.tableData = data.content
+  console.log(state.tableData)
   state.total = data.totalElements
   state.loading = false
 }
-const Nindex = (index) => {
+const Nindex = (index: number) => {
   // 当前页数 - 1 * 每页数据条数 + 1
   const page = state.pageIndex // 当前页码
   const pagesize = state.pageSize // 每页条数
@@ -193,7 +193,7 @@ const search = () => {
   }
 }
 // 切换页面的执行事件，  val 当前页码
-const changePage = (val) => {
+const changePage = (val: any) => {
   state.pageIndex = val;
   loadData(state);
 }

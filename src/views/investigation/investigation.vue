@@ -57,7 +57,7 @@
       </div>
     </template>
     <EditInvestigation
-      :InvestigationInfo="InvestigationInfo"
+      :investigationInfo="investigationInfo"
       @closeEditInvestigationForm="closeEditInvestigationForm"
       @success="success"
     />
@@ -95,6 +95,34 @@ const loadData = async (state: any)=> {
   state.total = data.totalElements
   state.loading = false
 }
+const Nindex = (index) => {
+  // 当前页数 - 1 * 每页数据条数 + 1
+  const page = state.pageIndex // 当前页码
+  const pagesize = state.pageSize // 每页条数
+  return index + 1 + (page - 1) * pagesize
+}
+// 刷新按钮
+const refresh = () => {
+  // 搜索表单内容
+  state.searchValue = ""
+  // 更新数据
+  loadData(state);
+}
+// 搜索
+const search = () => {
+  if (state.searchValue !== null) {
+    ElMessage({
+      type: 'success',
+      message: `关键字“${state.searchValue}”搜索内容如下`,
+    })
+    loadData(state)
+  }
+}
+// 切换页面的执行事件，  val 当前页码
+const changePage = (val) => {
+  state.pageIndex = val;
+  loadData(state);
+}
 //新增
 const addTitle = ref("新增问卷");
 const addInvestigationDialogFormVisible = ref(false);
@@ -111,10 +139,10 @@ const closeAddInvestigationForm = () => {
 const editInvestigationDialogFormVisible = ref(false);
 const editTitle = ref("编辑问卷");
 // 编辑角色信息
-const InvestigationInfo = ref();
+const investigationInfo = ref();
 const editInvestigation = async (id:number)=> {
   const { data } = await getInvestigationApi(id)
-  InvestigationInfo.value = data.result
+  investigationInfo.value = data.result
   editInvestigationDialogFormVisible.value = true
 }
 // 删除角色信息
@@ -138,6 +166,13 @@ const success = () => {
   addInvestigationDialogFormVisible.value = false;
   editInvestigationDialogFormVisible.value = false;
 };
+// 导出列表
+const column = [
+  {name: 'id',label: '角色id'},
+  {name: 'name',label: '角色名称'},
+  {name: 'rating',label: '评分'},
+  {name: 'remarks',label: '评论'}
+]
 
 const tableRowClassName = ({ rowIndex }: { rowIndex: number }) => {
   if (rowIndex === 1) {

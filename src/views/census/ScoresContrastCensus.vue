@@ -58,6 +58,8 @@ const getScoresContrastCensus = async ()=> {
   if(data.status===200){
     seriesData.value = data.result.barEchartsSeriesList
     categoryData.value = data.result.categoryList
+    console.log(seriesData.value)
+    console.log(categoryData.value)
   }
 }
 const changeCourse = async ()=> {

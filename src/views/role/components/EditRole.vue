@@ -51,6 +51,7 @@ const formRole = reactive({
 const props = defineProps(['roleInfo'])
 const roleInfo = ref(props.roleInfo)
 const emit = defineEmits(['closeEditRoleForm','success'])
+// console.log(roleInfo.value)
 // 给表单填充数据
 for (const key in formRole) {
   formRole[key] = roleInfo.value[key]

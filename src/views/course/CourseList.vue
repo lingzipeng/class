@@ -11,7 +11,7 @@
         <div class="card-search">
           <el-row :gutter="10">
             <el-col :span="10">
-              <el-input :prefix-icon="Search" v-model="searchValue" @keyup.enter.native="search"
+              <el-input v-model="searchValue" @keyup.enter.native="search"
                         placeholder="关键字搜索（回车）"/>
             </el-col>
             <el-col :span="11">

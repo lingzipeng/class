@@ -16,7 +16,7 @@
                 v-model="courseId"
                 placeholder="请选择"
                 style="width: 100%"
-                @change="changeCourse"
+                @change="change"
               >
                 <el-option
                   v-for="item in courseOptions"
@@ -31,57 +31,197 @@
         <!--搜索区域 end-->
       </div>
     </template>
-    <!--头部 end-->
-    <!--echarts start-->
-    <ScoreContrastCensusBar
-      :categoryData="categoryData"
-      :seriesData="seriesData"
-      :legendData="legendData"
-      height="400px"
-      width="100%"
-      id="pie"
-    />
-    <!--echarts end-->
+    <!--底部 end-->
+
+    <!--表格区域 start-->
+    <div class="table-box">
+      <el-table
+        element-loading-text="数据加载中..."
+        :data="user ? heighStudentsList : lowStudentsList"
+        style="width: 100%; text-align: center"
+        :cell-style="{ textAlign: 'center' }"
+        :header-cell-style="{
+          fontSize: '15px',
+          background: '#178557',
+          color: 'white',
+          textAlign: 'center',
+        }"
+      >
+        <el-table-column label="学号">
+          <template #default="scope">
+            <span>{{ scope.row.stuno }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="学生姓名">
+          <template #default="scope">
+            <span>{{ scope.row.name }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="班级名称">
+          <template #default="scope">
+            <span>{{ scope.row.classname }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="语文">
+          <template #default="scope">
+            <span>{{ scope.row.ChineseScore }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="数学">
+          <template #default="scope">
+            <span>{{ scope.row.mathScore }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="英语">
+          <template #default="scope">
+            <span>{{ scope.row.EnglishScore }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="总分">
+          <template #default="scope">
+            <span>{{
+              scope.row.ChineseScore +
+              scope.row.EnglishScore +
+              scope.row.mathScore
+            }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!--表格区域 end-->
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { getAllCourseListApi } from "../../api/teacher/teacher";
-import ScoreContrastCensusBar from "./components/ScoreContrastCensusBar.vue";
-import { getScoresContrastCensusApi } from "../../api/census/census";
-// 定义科目ID
+import { ref, onMounted, onBeforeMount } from "vue";
+import { allScoresCensusApi } from "../../api/census/census";
+
+// 定义
+let user = ref(true);
 const courseId = ref();
 const courseOptions = ref([
   { id: 1, name: "优秀榜单" },
   { id: 2, name: "待关注学生" },
 ]);
 
-const legendData = ref([
-  "总人数",
-  "总成绩",
-  "平均成绩",
-  "最高成绩",
-  "最低成绩",
-]);
-const seriesData = ref([]);
-const categoryData = ref([]);
-// 班级科目成绩对比
-const getScoresContrastCensus = async () => {
-  const { data } = await getScoresContrastCensusApi(courseId.value);
+interface math {
+  name: string;
+  mathScore: number;
+}
+interface English {
+  name: string;
+  EnglishScore: number;
+}
+interface Chinese {
+  name: string;
+  ChineseScore: number;
+}
+
+interface other {
+  stuno: string;
+  name: string;
+  classname: string;
+}
+interface Students {
+  stuno: string;
+  name: string;
+  classname: string;
+  mathScore: number;
+  EnglishScore: number;
+  ChineseScore: number;
+}
+const mathList: math[] = [];
+
+const EnglishList: English[] = [];
+
+const ChineseList: Chinese[] = [];
+
+const otherList: other[] = [];
+
+const heighStudentsList = ref<Students[]>([]);
+const lowStudentsList = ref<Students[]>([]);
+
+const getIndexTotal = async () => {
+  const { data } = await allScoresCensusApi();
+  //console.log({ data })
+
   if (data.status === 200) {
-    seriesData.value = data.result.barEchartsSeriesList;
-    categoryData.value = data.result.categoryList;
+    // seriesData.value = data.result;
+    for (let key in data.result) {
+      mathList.push({
+        name: data.result[key].name,
+        mathScore: data.result[key].数学,
+      });
+      EnglishList.push({
+        name: data.result[key].name,
+        EnglishScore: data.result[key].英语,
+      });
+      ChineseList.push({
+        name: data.result[key].name,
+        ChineseScore: data.result[key].语文,
+      });
+      otherList.push({
+        stuno: data.result[key].stuno,
+        name: data.result[key].name,
+        classname: data.result[key].classname,
+      });
+    }
+    for (let i = 0; i < otherList.length; i++) {
+      if (
+        mathList[i].mathScore > 60 &&
+        EnglishList[i].EnglishScore > 60 &&
+        ChineseList[i].ChineseScore > 60 &&
+        mathList[i].mathScore +
+          EnglishList[i].EnglishScore +
+          ChineseList[i].ChineseScore >
+          240
+      ) {
+        heighStudentsList.value.push({
+          name: otherList[i].name,
+          stuno: otherList[i].stuno,
+          classname: otherList[i].classname,
+          mathScore: mathList[i].mathScore,
+          EnglishScore: EnglishList[i].EnglishScore,
+          ChineseScore: ChineseList[i].ChineseScore,
+        });
+        // tableData.splice(0, 2);
+      }
+      if (
+        mathList[i].mathScore +
+          EnglishList[i].EnglishScore +
+          ChineseList[i].ChineseScore <
+        180
+      ) {
+        lowStudentsList.value.push({
+          name: otherList[i].name,
+          stuno: otherList[i].stuno,
+          classname: otherList[i].classname,
+          mathScore: mathList[i].mathScore,
+          EnglishScore: EnglishList[i].EnglishScore,
+          ChineseScore: ChineseList[i].ChineseScore,
+        });
+      }
+    }
   }
 };
-const changeCourse = async () => {
-  if (courseId.value !== null && courseId.value !== "") {
-    await getScoresContrastCensus();
+
+const change = () => {
+  if (courseId.value == 2) {
+    user.value = false;
+  }else{
+    user.value = true;
   }
 };
+
 //挂载后加载数据
-onMounted(() => {
-  getAllCourseListApi();
+onBeforeMount(() => {
+  getIndexTotal();
 });
 </script>
 
