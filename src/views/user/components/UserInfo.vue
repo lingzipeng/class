@@ -8,6 +8,7 @@
         信息展示
       </h3>
       <div class="info">
+        <!--编译器问题报错-->
         <h2>Hi，{{userInfo.realname}}</h2>
         <br>
         <p class="email">{{userInfo.email}}</p>

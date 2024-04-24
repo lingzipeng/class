@@ -209,6 +209,12 @@ const getIndexTotal = async () => {
       }
     }
   }
+  // 按总分排序
+  heighStudentsList.value.sort((a, b) => {
+      const totalScoreA = a.mathScore + a.EnglishScore + a.ChineseScore;
+      const totalScoreB = b.mathScore + b.EnglishScore + b.ChineseScore;
+      return totalScoreB - totalScoreA; // 降序排列
+    });
 };
 
 const change = () => {

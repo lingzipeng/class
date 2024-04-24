@@ -76,6 +76,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
       loading.value = true
       // 登录
         const { data } = await loginApi({ ...ruleForm });
+        const jsonData = JSON.stringify(data);
+        console.log(jsonData);
         if(data.status===200){
           // 设置token
           userStore.setToken(data.result.token)

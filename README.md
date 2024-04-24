@@ -1,10 +1,4 @@
-# 基于SpringBoot3+Vue3整合开发学生信息管理系统
-
-> 后端项目gitHub源码地址：https://github.com/seasonl2014/student-mangement-system
->
-> 前端项目gitHub源码地址：https://github.com/seasonl2014/student-mangement-system-web
->
-> 欢迎给个star鼓励一下~
+# 基于 SpringBoot3+Vue3 整合开发学生信息管理系统
 
 ## 系统功能结构
 
@@ -12,17 +6,11 @@
 
 管理员角色主要功能有：后台首页展示、个人信息展示和修改、用户管理、角色管理、班级管理、学生管理、课程管理、教师管理、班级科目成绩管理、班级科目成绩统计、班级科目对比统计等功能，如图所示：
 
-
 普通用户角色主要功能有：后台首页展示、个人信息展示和修改、班级科目成绩管理、班级科目成绩统计、班级科目对比统计等功能，如图所示：
-
-
-
-
-
 
 ## 技术栈
 
-1. web框架：SpringBoot3.X
+1. web 框架：SpringBoot3.X
 2. 数据库持久框架：Sping Data JPA
 3. 数据库：MySql
 4. 项目构建工具：Maven、vite
@@ -47,14 +35,4 @@
 
 7、学生成绩表（s_student_score）
 
-
-
 新增代码
-
-
-
-
-
-
-
-

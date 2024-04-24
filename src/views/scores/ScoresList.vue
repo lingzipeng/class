@@ -124,15 +124,24 @@
         </el-table-column>
 
         <el-table-column>
-          <!-- 自定义表头 -->
           <template #header>
             <span> 成绩 </span>
             <el-icon>
               <Edit />
             </el-icon>
           </template>
+          <template #default="scope">
+            <button @click="scoreDialogVisible = true">
+              {{ scope.row.score }}
+            </button>
+          </template>
+        </el-table-column>
 
-          <!-- 自定义单元格内容 -->
+        <el-table-column>
+          <template #header>
+            <span> 成绩 </span>
+          </template>
+
           <template #default="scope">
             <div class="edit-score" v-if="scope.row.edit">
               <el-input
@@ -148,8 +157,6 @@
                 style="margin: 0 0 10px 10px"
                 >保存</el-button
               >
-              <!-- <el-button type="warning" size="small" @click="cancel(scope.row)"
-                         style="margin: 0 0 10px 10px;">取消</el-button> -->
             </div>
 
             <span v-else>
@@ -163,13 +170,19 @@
           </template>
         </el-table-column>
 
+        <el-table-column label="上次成绩" prop="type">
+          <template #default="scope">
+            <span>上次成绩</span>
+          </template>
+        </el-table-column>
+
         <el-table-column label="类型" prop="type">
           <template #default="scope">
             <span>{{ scope.row.type }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="创建时间">
+        <!-- <el-table-column label="创建时间">
           <template #default="scope">
             <el-tooltip
               :content="scope.row.createTime"
@@ -181,7 +194,7 @@
               }}</span>
             </el-tooltip>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column label="操作">
           <template #default="scope">
@@ -206,6 +219,25 @@
             </el-popconfirm>
           </template>
         </el-table-column>
+
+        <el-table-column label="成绩跟踪" prop="student.stuno">
+          <template #default="scope">
+            <button @click="centerDialogVisible = true">
+              <span>学生成绩跟踪</span>
+            </button>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="评价生成" prop="student.stuno">
+          <template #default="scope">
+            <button><span>学生评价生成</span></button>
+          </template>
+        </el-table-column>
+        <el-table-column label="教学策略" prop="student.stuno">
+          <template #default="scope">
+            <button><span>教学策略生成</span></button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <el-dialog align-center v-model="prosonScores" width="62%" destroy-on-close>
@@ -223,6 +255,65 @@
       </div> -->
     </el-dialog>
     <!--表格区域 end-->
+    <el-dialog
+      v-model="centerDialogVisible"
+      title="成绩对比"
+      width="1000"
+      center
+    >
+      <ScoreContrastCensusBar
+        :categoryData="categoryData"
+        :seriesData="seriesData"
+        height="360px"
+        width="900px"
+        id="pie"
+      />
+      <span> 该学生语文和数学成绩都取得较大进步，英语保持优秀。 </span>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="centerDialogVisible = false">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <!--成绩编辑-->
+    <el-dialog
+      v-model="scoreDialogVisible"
+      title="成绩录入"
+      width="500"
+      align-center
+    >
+      <el-input
+        clearable
+        placeholder="请输入总分"
+        size="small"
+      ></el-input>
+      <br>
+      <br>
+      <el-input
+        clearable
+        placeholder="请输入基础分"
+        size="small"
+      ></el-input>
+      <br>
+      <br>
+      <el-input
+        clearable
+        placeholder="请输入重难点分数"
+        size="small"
+      ></el-input>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="scoreDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="scoreDialogVisible = false">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
     <!--分页 start-->
     <el-pagination
       background
@@ -252,8 +343,12 @@ import { ElMessage } from "element-plus";
 import { exportExcel } from "../../utils/exprotExcel";
 import ScoreContrastCensusBar from "./components/ScoreContrastCensusBar.vue";
 import { allScoresCensusApi } from "../../api/census/census";
+// 成绩跟踪弹窗
+const centerDialogVisible = ref(false);
 //个人成绩弹窗
 const prosonScores = ref(false);
+//编辑成绩弹框
+const scoreDialogVisible = ref(false);
 const handleClick = (name: string) => {
   prosonScores.value = true;
   seriesData.value.data = [];

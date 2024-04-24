@@ -9,13 +9,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vue-office/docx": "^1.6.0",
     "axios": "^1.2.0",
+    "docxtemplater": "^3.47.0",
     "element-plus": "^2.2.25",
     "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
+    "jszip": "^3.10.1",
+    "jszip-utils": "^0.1.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.27",
     "pinia-plugin-persistedstate": "^3.0.1",
+    "pizzip": "^3.1.7",
     "vue": "^3.2.41",
+    "vue-demi": "^0.14.6",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
