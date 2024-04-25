@@ -97,12 +97,12 @@
         }"
         @cell-dblclick="celldblclick"
       >
-        <el-table-column
+        <!-- <el-table-column
           label="序号"
           width="100"
           type="index"
           :index="Nindex"
-        />
+        /> -->
         <el-table-column label="学号" prop="student.stuno">
           <template #default="scope">
             <span>{{ scope.row.student.stuno }}</span>
@@ -131,9 +131,12 @@
             </el-icon>
           </template>
           <template #default="scope">
-            <button @click="scoreDialogVisible = true">
-              {{ scope.row.score }}
-            </button>
+            <div @click="scoreDialogVisible = true">
+                {{ scope.row.score }}
+              <el-icon>
+                <Edit />
+              </el-icon>
+            </div>
           </template>
         </el-table-column>
 
@@ -196,7 +199,7 @@
           </template>
         </el-table-column> -->
 
-        <el-table-column label="操作">
+        <!-- <el-table-column label="操作">
           <template #default="scope">
             <el-popconfirm
               confirm-button-text="确定"
@@ -218,24 +221,24 @@
               </template>
             </el-popconfirm>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column label="成绩跟踪" prop="student.stuno">
           <template #default="scope">
-            <button @click="centerDialogVisible = true">
+            <el-button round @click="centerDialogVisible = true">
               <span>学生成绩跟踪</span>
-            </button>
+            </el-button>
           </template>
         </el-table-column>
 
         <el-table-column label="评价生成" prop="student.stuno">
           <template #default="scope">
-            <button><span>学生评价生成</span></button>
+            <el-button round @click="reviewsDialogVisible = true"><span>学生评价生成</span></el-button>
           </template>
         </el-table-column>
         <el-table-column label="教学策略" prop="student.stuno">
           <template #default="scope">
-            <button><span>教学策略生成</span></button>
+            <el-button round @click="StrategyDialogVisible = true"><span>教学策略生成</span></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -286,20 +289,12 @@
       width="500"
       align-center
     >
-      <el-input
-        clearable
-        placeholder="请输入总分"
-        size="small"
-      ></el-input>
-      <br>
-      <br>
-      <el-input
-        clearable
-        placeholder="请输入基础分"
-        size="small"
-      ></el-input>
-      <br>
-      <br>
+      <el-input clearable placeholder="请输入总分" size="small"></el-input>
+      <br />
+      <br />
+      <el-input clearable placeholder="请输入基础分" size="small"></el-input>
+      <br />
+      <br />
       <el-input
         clearable
         placeholder="请输入重难点分数"
@@ -314,6 +309,42 @@
         </div>
       </template>
     </el-dialog>
+    <!--学生评价-->
+    <el-dialog
+    v-model="reviewsDialogVisible"
+    title="学生评价"
+    width="500"
+    align-center
+  >
+    <span>Open the dialog from the center from the screen</span>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="reviewsDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="reviewsDialogVisible = false">
+          Confirm
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+  <!--教学策略-->
+  <el-dialog
+    v-model="StrategyDialogVisible"
+    title="教学策略"
+    width="500"
+    align-center
+  >
+    <span>Open the dialog from the center from the screen</span>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="StrategyDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="StrategyDialogVisible = false">
+          Confirm
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+
+
     <!--分页 start-->
     <el-pagination
       background
@@ -345,6 +376,13 @@ import ScoreContrastCensusBar from "./components/ScoreContrastCensusBar.vue";
 import { allScoresCensusApi } from "../../api/census/census";
 // 成绩跟踪弹窗
 const centerDialogVisible = ref(false);
+
+// 个人评价弹窗
+const reviewsDialogVisible = ref(false);
+
+// 教学策略弹窗
+const StrategyDialogVisible = ref(false);
+
 //个人成绩弹窗
 const prosonScores = ref(false);
 //编辑成绩弹框

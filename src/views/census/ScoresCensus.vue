@@ -41,10 +41,11 @@
                 />
               </el-select>
             </el-col>
-            <el-col :span="1">
-            </el-col>
+            <el-col :span="1"> </el-col>
             <el-col :span="3">
-              <el-button round>报告生成</el-button>
+              <el-button round @click="centerDialogVisible = true"
+                >报告生成</el-button
+              >
             </el-col>
           </el-row>
         </div>
@@ -52,6 +53,69 @@
       </div>
     </template>
     <!--头部 end-->
+    <el-dialog
+      v-model="centerDialogVisible"
+      title="三年级1班语文成绩分析"
+      center
+    >
+      <div>
+        <el-descriptions title="" :column="3" border ref="tableRef">
+          <el-descriptions-item
+            label="Username"
+            label-align="right"
+            align="center"
+            label-class-name="my-label"
+            class-name="my-content"
+            width="150px"
+          >
+            kooriookami
+          </el-descriptions-item>
+          <el-descriptions-item
+            label="Telephone"
+            label-align="right"
+            align="center"
+          >
+            18100000000
+          </el-descriptions-item>
+          <el-descriptions-item
+            label="Place"
+            label-align="right"
+            align="center"
+          >
+            Suzhou
+          </el-descriptions-item>
+          <el-descriptions-item
+            label="Remarks"
+            label-align="right"
+            align="center"
+          >
+            <el-tag size="small">School</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item
+            label="Address"
+            label-align="right"
+            align="center"
+          >
+            No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <el-button
+        plain
+        style="width: 100%"
+        color="#2fa7b9"
+        @click="downloadTableAsImage"
+        >下载表格图片</el-button
+      >
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="centerDialogVisible = false">
+            Confirm
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
     <!--echarts start-->
     <ScoreCensusPie
       :seriesData="seriesData"
@@ -71,6 +135,9 @@ import { gradeClassListApi } from "../../api/student/student";
 import { getAllCourseListApi } from "../../api/teacher/teacher";
 import ScoreCensusPie from "./components/ScoreCensusPie.vue";
 import { getScoreCensusApi } from "../../api/census/census";
+import html2canvas from "html2canvas";
+//报告生成
+const centerDialogVisible = ref(false);
 // 定义班级ID
 const gradeClassId = ref();
 const gradeClassOptions = ref<object[]>([]);
@@ -124,7 +191,23 @@ const changeCourse = async () => {
     await getScoreCensus();
   }
 };
+// 下载表格图片方法
+const tableRef = ref(null);
+const downloadTableAsImage = async () => {
+  const tableElement = tableRef.value?.$el; // 获取表格元素的引用
+  const canvas = await html2canvas(tableElement);
 
+  // 将Canvas转换为图片的DataURL
+  const dataURL = canvas.toDataURL("image/png");
+
+  // 创建一个<a>标签，设置下载属性
+  const link = document.createElement("a");
+  link.href = dataURL;
+  link.download = "table_image.png"; // 下载图片的文件名
+
+  // 触发点击事件以下载图片
+  link.click();
+};
 //挂载后加载数据
 onMounted(() => {
   getAllCourseList();
@@ -160,5 +243,11 @@ onMounted(() => {
 .el-card {
   border-radius: 0px;
   border: none;
+}
+:deep(.my-label) {
+  background: var(--el-color-success-light-9) !important;
+}
+:deep(.my-content) {
+  background: var(--el-color-danger-light-9);
 }
 </style>

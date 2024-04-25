@@ -7,14 +7,22 @@
           <el-icon style="margin-right: 10px;"><Histogram /></el-icon>班级科目成绩对比统计
         </h3>
 
+
         <!--搜索区域 start-->
         <div class="card-search">
+          
           <el-row :gutter="8">
             <el-col :span="24">
               <el-select v-model="courseId" placeholder="请选择科目" style="width: 100%;" @change="changeCourse">
                 <el-option v-for="item in courseOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-col>
+            <!-- <el-col :span="2"> </el-col>
+            <el-col :span="24">
+              <el-select v-model="classId" placeholder="成绩分析" style="width: 100%;">
+                <el-option v-for="item in options" :key="item.value" :label="item.value" :value="item.value" />
+              </el-select>
+            </el-col> -->
           </el-row>
         </div>
         <!--搜索区域 end-->
@@ -35,6 +43,8 @@ import ScoreContrastCensusBar from './components/ScoreContrastCensusBar.vue'
 import {getScoresContrastCensusApi} from "../../api/census/census";
 // 定义科目ID
 const courseId = ref()
+//定义班级ID
+const classId = ref()
 // 定义课程下拉选择项
 const courseOptions = ref<object[]>([])
 // 获取所有课程列表
@@ -48,6 +58,30 @@ async function getAllCourseList() {
     console.log(e)
   }
 }
+
+//班级
+const options = [
+  {
+    value: '三年级1班',
+    label: 'Option1',
+  },
+  {
+    value: '三年级2班',
+    label: 'Option2',
+  },
+  {
+    value: '三年级3班',
+    label: 'Option3',
+  },
+  {
+    value: '三年级4班',
+    label: 'Option4',
+  },
+  {
+    value: '三年级5班',
+    label: 'Option5',
+  },
+]
 
 const legendData = ref(['总人数','总成绩','平均成绩', '最高成绩', '最低成绩'])
 const seriesData = ref([])
