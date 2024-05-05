@@ -99,7 +99,7 @@
     <el-pagination background layout="total, sizes, prev, pager, next, jumper" :total="total"
                    v-model:page-size="pageSize"
                    @current-change="changePage"
-                   :page-sizes="[10, 20, 30, 40]"/>
+                   :page-sizes="[10]"/>
     <!--分页 end-->
   </el-card>
   <!--新增班级弹出框 start-->

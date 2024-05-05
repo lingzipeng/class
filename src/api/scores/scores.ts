@@ -18,14 +18,28 @@ export function registerScoresApi(gradeClassId:number,courseId:number) {
     })
 }
 
+export function editLastScoresApi(id:number, oldScore: number) {
+    return request({
+        url: 'scores/oldScore',
+        method: 'put',
+        data: {
+            id:id,
+            oldScore:oldScore,
+        }
+    })
+}
+
 // 更新成绩
-export function editScoresApi(id:number,score: number) {
+export function editScoresApi(id:number,score: number, baseScore: number, difficultScore: number,oldScore: number) {
     return request({
         url: 'scores',
         method: 'put',
         data: {
             id:id,
-            score:score
+            score:score,
+            baseScore: baseScore,
+            difficultScore: difficultScore,
+            oldScore: oldScore
         }
     })
 }

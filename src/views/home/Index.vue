@@ -83,7 +83,40 @@ const classNums = ref(0)
 const teacherNums = ref(0)
 const courseNums = ref(0)
 const legendData = ref(['总人数','平均成绩', '最高成绩', '最低成绩'])
-const seriesData = ref([])
+const seriesData = ref([
+  {
+  data: [],
+  type: "bar",
+  label: {
+        show: true,
+        position: 'inside'
+      },
+},
+{
+  data: [],
+  type: "bar",
+  label: {
+        show: true,
+        position: 'inside'
+      },
+},
+{
+  data: [],
+  type: "bar",
+  label: {
+        show: true,
+        position: 'inside'
+      },
+},
+{
+  data: [],
+  type: "bar",
+  label: {
+        show: true,
+        position: 'inside'
+      },
+},
+]);
 const categoryData = ref([])
 
 const getIndexTotal = async ()=> {
@@ -95,7 +128,7 @@ const getIndexTotal = async ()=> {
     courseNums.value = data.result.courseNums
     categoryData.value = data.result.scores.categoryList
     seriesData.value = data.result.scores.barEchartsSeriesList
-    // console.log(seriesData.value)
+    //console.log(JSON.stringify(data.result.scores.barEchartsSeriesList));
   }
 }
 

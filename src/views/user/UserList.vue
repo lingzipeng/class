@@ -196,7 +196,7 @@
         :total="total"
         v-model:page-size="pageSize"
         @current-change="changePage"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[10]"
       />
       <!--分页 end-->
     </div>

@@ -76,34 +76,30 @@
     />
   </el-dialog>
   
-    <el-table
+    <!-- <el-table
       :data="tableData"
       style="width: 100%"
       :row-class-name="tableRowClassName"
       ref="tableRef"
     >
       <el-table-column prop="index" label="序号" width="80"></el-table-column>
-      <!-- 添加序号列 -->
       <el-table-column prop="date" label="" width="180" />
       <el-table-column prop="name" label="姓名" width="180" />
       <el-table-column prop="age" label="年龄"></el-table-column>
-      <!-- 添加年龄列 -->
       <el-table-column prop="gender" label="性别"></el-table-column>
-      <!-- 添加性别列 -->
       <el-table-column prop="remarks" label="评价" />
       <el-table-column prop="rating" label="评分" width="180">
       </el-table-column>
       <el-table-column label="操作">
-        <!-- 省略操作按钮 -->
       </el-table-column>
-    </el-table>
-    <el-button
+    </el-table> -->
+    <!-- <el-button
       plain
       style="width: 100%"
       color="#2fa7b9"
       @click="downloadTableAsImage"
       >下载表格图片</el-button
-    >
+    > -->
   </div>
 </template>
 
