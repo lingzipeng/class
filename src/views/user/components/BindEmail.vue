@@ -56,9 +56,9 @@
           </el-col>
           <el-col :span="24"
                   v-show="!showGetCode && !showNewEmail">
-            <el-button plain color="#2fa7b9" @click="showGetCode = true"
+            <!--<el-button plain color="#2fa7b9" @click="showGetCode = true"
                        style="margin-left: 0px;">更换绑定邮箱
-            </el-button>
+            </el-button>-->
           </el-col>
         </el-row>
       </el-form>

@@ -93,16 +93,16 @@ export const asyncRoutes = [
         },
         component: () => import("../views/user/UserList.vue"),
       },
-      {
-        path: "role",
-        name: "Role",
-        meta: {
-          title: "角色管理",
-          icon: "Stamp",
-          role: ["ROLE_ADMIN"],
-        },
-        component: () => import("../views/role/RoleList.vue"),
-      },
+      // {
+      //   path: "role",
+      //   name: "Role",
+      //   meta: {
+      //     title: "角色管理",
+      //     icon: "Stamp",
+      //     role: ["ROLE_ADMIN"],
+      //   },
+      //   component: () => import("../views/role/RoleList.vue"),
+      // },
     ],
   },
   {
@@ -228,6 +228,51 @@ export const asyncRoutes = [
         },
         component: () => import("../views/census/ScoresPeopleCensus.vue"),
       },
+    ],
+  },
+  {
+    path: "/ai",
+    name: "ai",
+    meta: {
+      title: "ai帮你看",
+      icon: "Avatar",
+      role: ["ROLE_USER", "ROLE_ADMIN"],
+    },
+    redirect: "/ai/index",
+    component: () => import("../views/layout/Index.vue"),
+    isMenu: true,
+    funcNode: 2,
+    children: [
+      {
+        path: "index",
+        name: "aiPersonIndex",
+        meta: {
+          title: "个人分析快速生成",
+          icon: "Tickets",
+          role: ["ROLE_USER", "ROLE_ADMIN"],
+        },
+        component: () => import("../views/ai/personalAnalysis.vue"),
+      },
+      {
+        path: "class",
+        name: "aiClassIndex",
+        meta: {
+          title: "班级分析快速生成",
+          icon: "DocumentCopy",
+          role: ["ROLE_USER", "ROLE_ADMIN"],
+        },
+        component: () => import("../views/ai/classAnalysis.vue"),
+      },
+      // {
+      //   path: "other",
+      //   name: "aiOtherIndex",
+      //   meta: {
+      //     title: "其他问题",
+      //     icon: "Help",
+      //     role: ["ROLE_USER", "ROLE_ADMIN"],
+      //   },
+      //   component: () => import("../views/ai/otherAnalysis.vue"),
+      // },
     ],
   },
 ];

@@ -7,7 +7,7 @@
     <div class="login-form">
       <!--标题和logo start-->
       <div class="login-title">
-        <h2 class="title">学生信息管理系统</h2>
+        <h2 class="title">教学分析报告系统</h2>
       </div>
       <!--标题和logo end-->
       <!--登录表单组件 start-->
